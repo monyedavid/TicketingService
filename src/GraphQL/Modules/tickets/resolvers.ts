@@ -1,6 +1,6 @@
-import { ResolverMap } from "../../../Utils/graphql-utile";
-import { createMiddleWare } from "../../../Utils/createMiddleWare";
-import { logged_in_admin as loggin_middleware } from "../../../Middlewares/loggedin";
+import { ResolverMap } from "../../Utils/graphql-utile";
+import { createMiddleWare } from "../../Utils/createMiddleWare";
+import loggin_middleware from "../../Middlewares/loggedin";
 
 export const resolvers: ResolverMap = {
   Query: {

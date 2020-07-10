@@ -1,3 +1,0 @@
-type Query {
-    replyTicket(id: String): T_response!
-}

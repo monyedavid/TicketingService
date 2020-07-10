@@ -1,0 +1,4 @@
+type Mutation {
+    replyTicket(id: String): T_response!
+    createTicket(request: String): Boolean!
+}
