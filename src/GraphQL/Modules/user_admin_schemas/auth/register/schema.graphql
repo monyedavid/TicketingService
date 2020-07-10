@@ -1,0 +1,16 @@
+type Query {
+    register_default: String
+}
+
+type Mutation {
+    register(
+        first_name: String!
+        last_name: String!
+        email: String!
+        role: Int!
+        password: String!
+        photo: String
+        # provide token to register an admin account!
+        token: String
+    ): T_response!
+}

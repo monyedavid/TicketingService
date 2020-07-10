@@ -1,0 +1,7 @@
+type Query {
+    logout_: String
+}
+
+type Mutation {
+    logout(type: String!): T_response!
+}

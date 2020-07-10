@@ -1,0 +1,22 @@
+{
+  "name": "default",
+  "type": "mongodb",
+  "database": "fpay-customer-service",
+  "useNewUrlParser": true,
+  "url": "mongodb://netbot:1234567890a@ds363098.mlab.com:63098/fpay-customer-service",
+  "logging": true,
+  "entities": [
+    "src/Database/entities/*.ts"
+  ],
+  "subscribers": [
+    "src/Database/subscriber/*.ts"
+  ],
+  "migrations": [
+    "src/Database/migration/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "src/Database/entities",
+    "migrationsDir": "src/Database/migration",
+    "subscribersDir": "src/Database/subscriber"
+  }
+}

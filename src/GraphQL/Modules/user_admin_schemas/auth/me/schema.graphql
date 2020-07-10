@@ -1,0 +1,38 @@
+type Query {
+    me: me_union
+    get_currentRegion: me
+}
+
+type Mutation {
+    set_currentRegion(region: Region!): T_response!
+}
+
+union me_union = T_response | me
+
+type me {
+    ok: Boolean!
+    message: String
+    status: Int!
+    error: [Error!]
+    data: me_data!
+}
+
+type me_data {
+    id: Int
+
+    first_name: String
+
+    last_name: String
+
+    email: String
+
+    phone_number: String
+
+    role: Int
+
+    photo: String
+
+    confirmed: Boolean
+
+
+}

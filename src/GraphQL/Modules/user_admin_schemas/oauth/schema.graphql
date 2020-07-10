@@ -1,0 +1,9 @@
+type Query {
+    oauth(type: Oauth!): oauth_redirect
+}
+
+type oauth_redirect {
+    ok: Boolean!
+    status: Int!
+    path: String
+}

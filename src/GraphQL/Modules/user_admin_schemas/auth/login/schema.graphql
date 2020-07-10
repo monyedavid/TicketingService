@@ -1,0 +1,7 @@
+type Query {
+    login_default: String
+}
+
+type Mutation {
+    login(email: String!, password: String!): T_response!
+}
