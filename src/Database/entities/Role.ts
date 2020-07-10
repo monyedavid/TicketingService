@@ -19,7 +19,7 @@ export class Role {
   role: string;
 
   // create class access to mongo repositories
-  static _(): MongoRepository<Role> {
+  static repo(): MongoRepository<Role> {
     return getMongoRepository(Role);
   }
 }

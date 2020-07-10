@@ -4,8 +4,8 @@ import {
   ObjectIdColumn,
   Column,
   MongoRepository,
+  getMongoRepository,
 } from "typeorm";
-import { getMongoRepository } from "typeorm";
 
 @Entity()
 export class Ticket {
@@ -22,7 +22,7 @@ export class Ticket {
   comments: string;
 
   // create class access to mongo repositories
-  static _(): MongoRepository<Ticket> {
+  static repo(): MongoRepository<Ticket> {
     return getMongoRepository(Ticket);
   }
 }

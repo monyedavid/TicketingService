@@ -70,7 +70,8 @@ export default class LocalAuth extends Base {
       };
     }
 
-    const _role = await Role._().findOne(args.role);
+    const _role = await Role.repo().findOne({ role_id: args.role });
+
     // const user = await User.repo().save({ ...args, role: _role });
     const user = await User.ci({ ...args, role: _role });
 
