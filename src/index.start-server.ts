@@ -30,7 +30,7 @@ import {
 } from "./Utils/constants";
 
 import Static_ApiRoutes from "./Api/Contracts/static";
-import Connections_ from "./Services/connections";
+import Conn from "./Services/connections";
 
 const RedisStore = connectRedis(session);
 const sessionSecret = process.env.SESSION_SECRET as string;
@@ -71,7 +71,7 @@ export const startServer = async () => {
   /**
    * @desc  CREATE TYPE-ORM CONNECTION BASED ON PROCESS.ENV{SETUP TEST DEV DB}
    */
-  const conn: Connection = await Connections_.createTypeOrmConnection();
+  const conn: Connection = await Conn.createTypeOrmConnection();
 
   console.log(conn, "<- conn");
 

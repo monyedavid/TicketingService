@@ -54,7 +54,7 @@ export default class LocalAuth extends Base {
 
     let userAlreadyExists: User;
 
-    userAlreadyExists = await User._().findOne({ email: args.email });
+    userAlreadyExists = await User.repo().findOne({ email: args.email });
 
     if (userAlreadyExists) {
       return {
@@ -71,12 +71,13 @@ export default class LocalAuth extends Base {
     }
 
     const _role = await Role._().findOne(args.role);
-    const user = await User._().insert({ ...args, role: _role });
+    // const user = await User.repo().save({ ...args, role: _role });
+    const user = await User.ci({ ...args, role: _role });
 
     if (process.env.NODE_ENV !== "test") {
       await sendEmail(
         args.email,
-        await createConfirmEmailLink(this.url, user.identifiers[0].id, redis)
+        await createConfirmEmailLink(this.url, user.id, redis)
       );
     }
 
@@ -97,19 +98,16 @@ export default class LocalAuth extends Base {
     { session, sessionID }: Request,
     redis: Redis
   ) {
-    const user = await User._().findOne({ email });
+    const user = await User.repo().findOne({ email });
 
     if (!user) {
       return errorResponse;
     }
 
-    let valid: boolean;
-
     // TODO: Encrypt password with event listener @User Class
     // TODO: update validation method with new encrypted password
-    valid = password == user.password;
 
-    if (!valid) {
+    if (!(await user.verify(password))) {
       return errorResponse;
     }
 
@@ -148,6 +146,8 @@ export default class LocalAuth extends Base {
         todo: "successful login",
         token: await genToken(gsd(user)),
       }),
+      status: 200,
+      error: null,
     };
   }
 }

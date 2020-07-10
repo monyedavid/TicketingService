@@ -4,7 +4,7 @@ import { ObjectID } from "typeorm";
 
 export const forgotPasswordLockAccount = async (id: ObjectID) => {
   // Lockout
-  await User._().update({ id }, { forgotPasswordLock: true });
+  await User.repo().update({ id }, { forgotPasswordLock: true });
   // Remove all sessions
   await removeAllUserSessions(id);
 };

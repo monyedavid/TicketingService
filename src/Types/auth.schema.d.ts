@@ -8,6 +8,7 @@ declare namespace _LocalAuth {
     role: number;
     password: string;
     photo?: string;
+    phone_number?: string;
   }
 
   interface login {

@@ -24,7 +24,7 @@ export default class CommonAuth extends Base {
     let me: User;
 
     try {
-      me = await User._().findOne(session.user_id);
+      me = await User.repo().findOne(session.user_id);
     } catch (error) {
       return {
         ok: false,

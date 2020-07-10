@@ -5,7 +5,7 @@ import { User } from "../../Database/entities/User";
 
 export const logged_in_helper = async ({ user_id }: Session) => {
   if (user_id) {
-    const valid_user = await User._().findOneOrFail(user_id);
+    const valid_user = await User.repo().findOneOrFail(user_id);
     if (valid_user) return true;
   }
 

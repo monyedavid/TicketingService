@@ -1,10 +1,11 @@
 import {
   createConnection,
-  createConnections,
   getConnectionOptions,
+  getMongoManager,
+  MongoEntityManager,
 } from "typeorm";
 
-export default class Connections_ {
+export default class Conn {
   /**
    * @method            createTypeOrmConnection
    * @description       instantiate a new typeOrm connection
@@ -16,6 +17,10 @@ export default class Connections_ {
     const default_ = await getConnectionOptions("default");
 
     return createConnection({ ...default_ });
+  }
+
+  static manager(): MongoEntityManager {
+    return getMongoManager();
   }
 }
 

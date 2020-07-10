@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import Connections_ from "../../connections";
+import Conn from "../../connections";
 
 export default class Base {
   /**
