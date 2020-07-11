@@ -12,15 +12,15 @@ type Query {
     # Return all active Tickets - Admin protceted route
     openTickets: QTD!
 
-    # Load comments on ticket
-    # Admin(s) & Customer owner of ticket access restriction
-    loadTCommentHistory(ticketId: String): QTcD!
-
     # Return all in-active Tickets - Admin protceted route
     closedTickets: QTD!
 
     # Load all tickets made by customer
     myTickets: QTD!
+
+    # Load comments on ticket
+    # Admin(s) & Customer owner of ticket access restriction
+    loadTCommentHistory(ticketId: String): QTcD!
 }
 
 type QTD { # Query Ticket Data ->> excludes comments must be requested?

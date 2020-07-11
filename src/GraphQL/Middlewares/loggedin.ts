@@ -108,6 +108,14 @@ export const logged_in_admin = async (
   );
 };
 
+export const admin_or_owner = async (
+  resolver: Resolver,
+  parent: any,
+  args: any,
+  context: Context,
+  info: any
+) => {};
+
 /**
  *  ok: boolean,
  *   message: string,
