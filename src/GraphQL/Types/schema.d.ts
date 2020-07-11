@@ -22,7 +22,28 @@ column: number;
 
 interface IQuery {
 __typename: "Query";
-replyTicket: ITResponse;
+
+/**
+ * Return all active Tickets - Admin protceted route
+ */
+openTickets: IQTD;
+
+/**
+ * Return all in-active Tickets - Admin protceted route
+ */
+closedTickets: IQTD;
+
+/**
+ * Load all tickets made by customer
+* Filter open or closed
+ */
+myTickets: IQTD;
+
+/**
+ * Load comments on ticket
+* Admin(s) & Customer owner of ticket access restriction
+ */
+loadTCommentHistory: IQTcD;
 login_default: string | null;
 logout_: string | null;
 me: me_union | null;
@@ -31,20 +52,29 @@ register_default: string | null;
 oauth: IOauthRedirect | null;
 }
 
-interface IReplyTicketOnQueryArguments {
-id?: string | null;
+interface IMyTicketsOnQueryArguments {
+open: boolean;
+}
+
+interface ILoadTCommentHistoryOnQueryArguments {
+ticketId: string;
 }
 
 interface IOauthOnQueryArguments {
 type: any;
 }
 
-interface ITResponse {
-__typename: "T_response";
+interface IQTD {
+__typename: "QTD";
 ok: boolean;
 message: string | null;
 status: number;
 error: Array<IError> | null;
+
+/**
+ * Data -> Tickets or Comments under a Ticket
+ */
+data: Array<ITicket | null>;
 }
 
 interface IError {
@@ -53,9 +83,59 @@ path: string;
 message: string;
 }
 
+interface ITicket {
+__typename: "Ticket";
+id: string;
+open: boolean;
+request: string;
+owner: string;
+createdDate: any;
+}
+
+interface IQTcD {
+__typename: "QTcD";
+
+/**
+ * ->> explicit request of ticket comments
+ */
+ok: boolean;
+message: string | null;
+status: number;
+error: Array<IError> | null;
+
+/**
+ * Data -> Tickets or Comments under a Ticket
+ */
+data: Array<IComments | null>;
+}
+
+interface IComments {
+__typename: "Comments";
+ticketId: string;
+open: boolean;
+comments: Array<IITicketComments | null>;
+}
+
+interface IITicketComments {
+__typename: "ITicketComments";
+user_id: string;
+full_name: string;
+comment: string;
+createdAt: any;
+admin: boolean;
+}
+
 type me_union = ITResponse | IMe;
 
 
+
+interface ITResponse {
+__typename: "T_response";
+ok: boolean;
+message: string | null;
+status: number;
+error: Array<IError> | null;
+}
 
 interface IMe {
 __typename: "me";
@@ -89,7 +169,6 @@ interface IMutation {
 __typename: "Mutation";
 login: ITResponse;
 logout: ITResponse;
-set_currentRegion: ITResponse;
 register: ITResponse;
 }
 
@@ -100,10 +179,6 @@ password: string;
 
 interface ILogoutOnMutationArguments {
 type: string;
-}
-
-interface ISetCurrentRegionOnMutationArguments {
-region: any;
 }
 
 interface IRegisterOnMutationArguments {
@@ -128,54 +203,28 @@ mimetype: string;
 encoding: string;
 }
 
-interface IInStringToIntKeyValue {
-key?: string | null;
-value?: number | null;
+interface ISubscriptions {
+__typename: "Subscriptions";
+
+/**
+ * Reply ticket in private channel
+* accesible only customer who raised ticket & any admin
+ */
+replyTicket: ITResponse;
+
+/**
+ * Add a new Ticket to raise-new-ticket channel
+* Tickets can only be raised by customers?!
+ */
+raiseTicket: ITResponse;
 }
 
-interface IReadOptions {
-
-/**
- * Offset (paginated) where from entities should be taken.
- */
-skip?: number | null;
-
-/**
- * Limit (paginated) - max number of entities should be taken.
- */
-take?: number | null;
-
-/**
- * Order, in which entities should be ordered -> [P in keyof Entity]?: "ASC" | "DESC" | 1 | -1;
- */
-order?: IInStringToIntKeyValue | null;
-
-/**
- * Specifies what columns should be retrieved.
- */
-select?: Array<string | null> | null;
-
-/**
- * Find One By ID
- */
-byId?: number | null;
+interface IReplyTicketOnSubscriptionsArguments {
+ticketId: string;
 }
 
-interface IInStringToStringKeyValue {
-key?: string | null;
-value?: string | null;
-}
-
-interface IStringToIntKeyValue {
-__typename: "StringToIntKeyValue";
-key: string | null;
-value: number | null;
-}
-
-interface IStringToStringKeyValue {
-__typename: "StringToStringKeyValue";
-key: string | null;
-value: string | null;
+interface IRaiseTicketOnSubscriptionsArguments {
+request: string;
 }
 }
 

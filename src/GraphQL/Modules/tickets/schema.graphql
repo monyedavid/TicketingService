@@ -1,11 +1,11 @@
 type Subscriptions {
     # Reply ticket in private channel
     # accesible only customer who raised ticket & any admin
-    replyTicket(ticketId: String): T_response!
+    replyTicket(ticketId: String!): T_response!
 
     # Add a new Ticket to raise-new-ticket channel
     # Tickets can only be raised by customers?!
-    raiseTicket(request: String): T_response!
+    raiseTicket(request: String!): T_response!
 }
 
 type Query {
@@ -16,11 +16,12 @@ type Query {
     closedTickets: QTD!
 
     # Load all tickets made by customer
-    myTickets: QTD!
+    # Filter open or closed
+    myTickets(open: Boolean!): QTD!
 
     # Load comments on ticket
     # Admin(s) & Customer owner of ticket access restriction
-    loadTCommentHistory(ticketId: String): QTcD!
+    loadTCommentHistory(ticketId: String!): QTcD!
 }
 
 type QTD { # Query Ticket Data ->> excludes comments must be requested?

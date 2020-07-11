@@ -3,10 +3,6 @@ type Query {
     get_currentRegion: me
 }
 
-type Mutation {
-    set_currentRegion(region: Region!): T_response!
-}
-
 union me_union = T_response | me
 
 type me {

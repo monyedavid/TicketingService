@@ -32,5 +32,18 @@ export const resolvers: ResolverMap = {
         return middleware_result;
       }
     ),
+
+    loadTCommentHistory: createMiddleWare(
+      CustomerLoggedInMw, // will convert string Ticket ID ->> Object ID ^_^
+      async (
+        _,
+        { ticketId }: GQL.ILoadTCommentHistoryOnQueryArguments,
+        { middleware_result }
+      ) => {
+        if (!middleware_result.ok) return middleware_result;
+
+        return middleware_result;
+      }
+    ),
   },
 };
