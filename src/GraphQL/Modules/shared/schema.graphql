@@ -1,13 +1,7 @@
 scalar Date
 scalar Long
-scalar Region
-scalar Ncsd
-scalar Ncst
 scalar Oauth
 scalar Upload
-scalar StringOrInt
-scalar DB
-scalar UserRole
 
 type Error {
     path: String!
@@ -26,39 +20,4 @@ type File {
     filename: String!
     mimetype: String!
     encoding: String!
-}
-
-input inStringToIntKeyValue {
-    key: String
-    value: Int
-}
-
-input read_options {
-    # Offset (paginated) where from entities should be taken.
-    skip: Int
-    # Limit (paginated) - max number of entities should be taken.
-    take: Int
-    # Order, in which entities should be ordered -> [P in keyof Entity]?: "ASC" | "DESC" | 1 | -1;
-    order: inStringToIntKeyValue
-    # Specifies what columns should be retrieved.
-    select: [String]
-    # Find One By ID
-    byId: Int
-}
-
-
-input inStringToStringKeyValue {
-    key: String
-    value: String
-}
-
-type StringToIntKeyValue {
-    key: String
-    value: Int
-}
-
-
-type StringToStringKeyValue {
-    key: String
-    value: String
 }

@@ -12,7 +12,7 @@ import {
 import { User } from "./User";
 
 interface ITicketComments {
-  user_id: ObjectID;
+  user_id: ObjectID; // Admin ID | Customer ID
   full_name: string;
   comment: string;
   createdAt: Date;
@@ -29,7 +29,7 @@ export class Ticket {
   request: string;
 
   @Column()
-  customer: User;
+  owner: User;
 
   @Column()
   comments: [ITicketComments];
@@ -70,6 +70,25 @@ export class Ticket {
     partialEntity.comments = comments;
 
     await Ticket.repo().update(this, partialEntity);
+  }
+
+  // open or close ticket
+  async openORcloseTicket() {
+    const partialEntity = new Ticket();
+
+    partialEntity.open = !this.open;
+
+    // update state of ticket
+    await Ticket.repo().update(this, partialEntity);
+  }
+
+  // Load Comments
+  async loadComments() {
+    return {
+      id: this.id,
+      open: this.open,
+      comments: this.comments,
+    };
   }
 
   @BeforeUpdate()

@@ -57,6 +57,9 @@ export class User {
   @Column({ nullable: false })
   email: string;
 
+  @Column({ nullable: false, default: true })
+  active: boolean;
+
   @Column({ nullable: false, default: false })
   confirmed: boolean;
 
@@ -111,6 +114,11 @@ export class User {
   @BeforeInsert()
   updateDates() {
     this.createdDate = new Date();
+  }
+
+  @BeforeInsert()
+  activateUser() {
+    this.active = true;
   }
 
   @BeforeInsert()

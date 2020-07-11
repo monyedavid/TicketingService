@@ -21,20 +21,21 @@ export default async (
   const { session } = context;
 
   if (await logged_in_helper(session)) {
-    return await resolver(
-      parent,
-      args,
-      {
-        ...context,
-        middleware_result: {
-          ok: true,
-          message: "valid user found",
-          status: 200,
-          error: null,
+    if (session.user.role == 2)
+      return await resolver(
+        parent,
+        args,
+        {
+          ...context,
+          middleware_result: {
+            ok: true,
+            message: "valid customer - found",
+            status: 200,
+            error: null,
+          },
         },
-      },
-      info
-    );
+        info
+      );
   }
 
   return await resolver(
@@ -49,7 +50,8 @@ export default async (
         error: [
           {
             path: "login",
-            message: "no user detected, authenticate and try again",
+            message:
+              "no customer - user detected, re-authenticate and try again",
           },
         ],
       },

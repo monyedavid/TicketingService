@@ -24,9 +24,7 @@ export const GenSchema = () => {
       ...mergeResolvers(resolvers),
       Date: GraphqlDate,
       Long: GraphqlLong,
-      Region: customs.Region,
       Oauth: customs.oauth,
-      UserRole: customs.UserRole,
     },
   });
 };
