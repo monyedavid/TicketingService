@@ -3,7 +3,7 @@
 
 declare namespace GQL {
 interface IGraphQLResponseRoot {
-data?: IQuery | IMutation;
+data?: IQuery | IMutation | ISubscription;
 errors?: Array<IGraphQLResponseError>;
 }
 
@@ -44,6 +44,20 @@ myTickets: IQTD;
 * Admin(s) & Customer owner of ticket access restriction
  */
 loadTCommentHistory: IQTcD;
+
+/**
+ * Reply ticket in private channel
+* accesible only customer who raised ticket & any admin
+* can be rejcetd
+ */
+replyTicket: ITResponse;
+
+/**
+ * Add a new Ticket to raise-new-ticket channel
+* Tickets can only be raised by customers?!
+* can be rejcetd
+ */
+raiseTicket: ITResponse;
 login_default: string | null;
 logout_: string | null;
 me: me_union | null;
@@ -60,6 +74,14 @@ interface ILoadTCommentHistoryOnQueryArguments {
 ticketId: string;
 }
 
+interface IReplyTicketOnQueryArguments {
+ticketId: string;
+}
+
+interface IRaiseTicketOnQueryArguments {
+request: string;
+}
+
 interface IOauthOnQueryArguments {
 type: any;
 }
@@ -74,7 +96,7 @@ error: Array<IError> | null;
 /**
  * Data -> Tickets or Comments under a Ticket
  */
-data: Array<ITicket | null>;
+data: Array<ITicket | null> | null;
 }
 
 interface IError {
@@ -86,7 +108,7 @@ message: string;
 interface ITicket {
 __typename: "Ticket";
 id: string;
-open: boolean;
+open: boolean | null;
 request: string;
 owner: string;
 createdDate: any;
@@ -106,28 +128,24 @@ error: Array<IError> | null;
 /**
  * Data -> Tickets or Comments under a Ticket
  */
-data: Array<IComments | null>;
+data: Array<ICommentsHistory | null> | null;
 }
 
-interface IComments {
-__typename: "Comments";
+interface ICommentsHistory {
+__typename: "CommentsHistory";
 ticketId: string;
 open: boolean;
-comments: Array<IITicketComments | null>;
+comments: Array<IITicketComment | null> | null;
 }
 
-interface IITicketComments {
-__typename: "ITicketComments";
+interface IITicketComment {
+__typename: "ITicketComment";
 user_id: string;
 full_name: string;
 comment: string;
 createdAt: any;
 admin: boolean;
 }
-
-type me_union = ITResponse | IMe;
-
-
 
 interface ITResponse {
 __typename: "T_response";
@@ -136,6 +154,10 @@ message: string | null;
 status: number;
 error: Array<IError> | null;
 }
+
+type me_union = ITResponse | IMe;
+
+
 
 interface IMe {
 __typename: "me";
@@ -195,36 +217,32 @@ photo?: string | null;
 token?: string | null;
 }
 
+interface ISubscription {
+__typename: "Subscription";
+
+/**
+ * Reply ticket in private channel
+* accesible only customer who raised ticket & any admin
+ */
+replyTicket: IITicketComment;
+
+/**
+ * Add a new Ticket to raise-new-ticket channel
+* Tickets can only be raised by customers?!
+ */
+raiseTicket: ITicket;
+}
+
+interface IReplyTicketOnSubscriptionArguments {
+ticketId: string;
+}
+
 interface IFile {
 __typename: "File";
 id: string;
 filename: string;
 mimetype: string;
 encoding: string;
-}
-
-interface ISubscriptions {
-__typename: "Subscriptions";
-
-/**
- * Reply ticket in private channel
-* accesible only customer who raised ticket & any admin
- */
-replyTicket: ITResponse;
-
-/**
- * Add a new Ticket to raise-new-ticket channel
-* Tickets can only be raised by customers?!
- */
-raiseTicket: ITResponse;
-}
-
-interface IReplyTicketOnSubscriptionsArguments {
-ticketId: string;
-}
-
-interface IRaiseTicketOnSubscriptionsArguments {
-request: string;
 }
 }
 

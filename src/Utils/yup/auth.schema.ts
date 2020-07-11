@@ -1,13 +1,9 @@
-import { string, object, number, ref } from "yup";
+import { string, object, number } from "yup";
 import {
   emailNotLongEnough,
   invalidEmail,
   passwordNotLongEnough,
   invalidUserRole,
-  region_ghana,
-  region_liberia,
-  region_nigeria,
-  region_senegal,
 } from "../constants";
 
 export const pv = string().min(7, passwordNotLongEnough).max(255).required();
@@ -20,7 +16,7 @@ export const reg_schema = object().shape({
     .max(255)
     .email(invalidEmail)
     .required(),
-  role: number().min(2, invalidUserRole).max(5, invalidUserRole).required(),
+  role: number().min(1, invalidUserRole).max(2, invalidUserRole).required(),
   user_name: string(),
   password: pv,
   photo: string(),
