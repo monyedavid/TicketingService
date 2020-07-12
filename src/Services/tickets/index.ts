@@ -77,7 +77,49 @@ export default class TicketingService {
     return { ok: true, status: 200, message: "ticket has been raised" };
   }
 
-  async comment() {}
+  async comment(
+    reply: string,
+    ticketId: ObjectID
+  ): Promise<{
+    ok: boolean;
+    message?: string;
+    status: number;
+    error?: {
+      path: string;
+      message: string;
+    }[];
+  }> {
+    // find user -- guaranteed to exist
+    const user = await User.repo().findOne({ email: this.session.user.email });
+
+    const ticket = (await Ticket.repo().findByIds([ticketId]))[0];
+
+    const postedComment = ticket.nc({
+      user_id: new ObjectID(this.session.user_id),
+      admin: this.session.user.role == 1,
+      comment: reply,
+      createdAt: new Date(),
+      full_name: this.session.user.first_name + this.session.user.last_name,
+    });
+
+    if (postedComment) {
+      return { ok: true, message: "success", status: 200 };
+    } else {
+      return {
+        ok: false,
+        message: "failed to post comment",
+        status: 405,
+        error: [
+          {
+            path: "comment",
+            message: "you are not allowed to leave comment at this time",
+          },
+        ],
+      };
+    }
+  }
+
+  async loadComments() {}
 
   /**
    * @param id     Ticket ID

@@ -13,7 +13,7 @@ import {
   PUB_SUB_REPLY_TICKET,
 } from "../../../Utils/constants";
 import TicketingService from "../../../Services/tickets";
-import { ObjectID } from "typeorm";
+import { ObjectID } from "mongodb";
 
 /**
  * @function              Partial, curried functions
@@ -118,13 +118,15 @@ export const resolvers: ResolverMap = {
       async (
         _,
         { reply, ticketId }: GQL.IReplyTicketOnMutationArguments,
-        { middleware_result, pubSub }
+        { session, middleware_result, pubSub }
       ) => {
         if (!middleware_result.ok) return middleware_result;
 
         const partialPublish = PublishTicketReply.bind(null, pubSub, ticketId);
 
-        return middleware_result;
+        const service = new TicketingService(session, partialPublish);
+
+        return await service.comment(reply, new ObjectID(ticketId));
       }
     ),
 
