@@ -53,7 +53,7 @@ export const resolvers: ResolverMap = {
   },
 
   Subscription: {
-    raiseTicket: {
+    raisedTickets: {
       subscribe: (_, __, { pubSub }) =>
         pubSub.asyncIterator(PUB_SUB_RAISE_TICKET),
     },

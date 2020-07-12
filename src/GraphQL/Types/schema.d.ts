@@ -230,7 +230,7 @@ replyTicket: IITicketComment;
  * Add a new Ticket to raise-new-ticket channel
 * Tickets can only be raised by customers?!
  */
-raiseTicket: ITicket;
+raisedTickets: ITicket;
 }
 
 interface IReplyTicketOnSubscriptionArguments {

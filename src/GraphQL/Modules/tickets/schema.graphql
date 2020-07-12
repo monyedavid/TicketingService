@@ -5,7 +5,7 @@ type Subscription {
 
     # Add a new Ticket to raise-new-ticket channel
     # Tickets can only be raised by customers?!
-    raiseTicket: Ticket!
+    raisedTickets: Ticket!
 }
 
 type Query {
