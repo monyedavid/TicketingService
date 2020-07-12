@@ -1,7 +1,14 @@
 # FliqPay Test
 
 This repository contains the solution to the FliqPay senior software engineering [test](https://docs.google.com/document/d/1sz_g5McxhBRze_VfK0QNWeN7J4BRuZzh0KZU6_bGyKo/edit)
+<br>
 
+Built with typescript, typeorm & graphql, this solution uses web-sockets, redis, & graphql subscriptions to create and comment 
+on tickets in real time
+
+# Project Documentation
+
+GQ postman docs can be found [here](https://documenter.getpostman.com/view/10077490/T17NZjAq?version=latest)
 
 # How to install
 
@@ -15,7 +22,7 @@ This repository contains the solution to the FliqPay senior software engineering
 
 # Deployed instance 
 
-This repository has been deployed with docker container on [heroku](https://fliqpay.herokuapp.com/) 
+This repository has been deployed with docker container on heroku [playground](https://fliqpay.herokuapp.com/playground) 
 
 # Project Structure
 
@@ -61,4 +68,123 @@ This repository has been deployed with docker container on [heroku](https://fliq
     
 ```
 
-# Tools and Packages
+# Using Project
+
+In [playground](https://fliqpay.herokuapp.com/playground) copy and paste queries with 
+variables to run operation, examples are defined below
+for easy use. Users in example exist in database
+
+**Register Mutations**
+
+![Reg](./doc/register.png)
+
+
+```graphql endpoint doc
+# QUERY
+mutation register(
+  $first_name: String!
+  $last_name: String!
+  $email: String!
+  $role: Int!
+  $password: String!
+) {
+  register(
+    first_name: $first_name
+    last_name: $last_name
+    email: $email
+    role: $role
+    password: $password
+  ) {
+    ok
+    message
+    status
+    error {
+      path
+      message
+    }
+  }
+}
+
+# QUERY VARIABLE
+
+{
+    "first_name": "Old", 
+    "last_name": "ye", 
+    "email": "griffinc317@gmail.com",
+    "role": 2,
+    "password": "1234567890"
+}
+```
+
+**Login Mutations**
+
+![Login](./doc/login.png)
+
+```graphql endpoint doc
+# Query
+mutation Login ($email: String!, $password: String!) {
+    login (email: $email, password: $password) {
+        ok
+        message
+        status
+        error {
+            path
+            message
+        }
+    }
+}
+
+# Query Variables
+{
+  "email" : "fcx06086@eoopy.com",
+  "password": "1234567890"
+}
+```
+
+**Subscription --Raise Ticket**
+
+![raise tickets](./doc/raised-tickets-subs.png)
+
+This is a ws channel, real time update of created tickets
+
+```graphql endpoint doc
+# Open channel for customers to post Tickets(requests/issues)
+subscription {
+  raisedTickets {
+    id
+    open
+    request
+    owner
+    createdDate 
+  }
+}# Open channel for customers to post Tickets(requests/issues)
+ subscription {
+   raisedTickets {
+     id
+     open
+     request
+     owner
+     createdDate 
+   }
+ }
+```
+
+**Subscription --Reply Ticket(s)**
+
+This is a private ws channel, real time update of comments by admin(s) and ticket owner
+
+![reply tickets](./doc/relpy-tickets-subs.png)
+
+
+```graphql endpoint doc
+# Private Channel fot replying tickets by admins & ticket owner
+subscription {
+  replyTicket(ticketId: "5f0ae0a9de02ba290cd5576d") {
+    user_id
+    full_name
+    comment
+    createdAt
+    admin
+  }
+}
+```
