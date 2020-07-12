@@ -48,7 +48,7 @@ export class Ticket {
   private constructor(
     request?: string,
     owner?: User,
-    comments?: [ITicketComments],
+    comments?: ITicketComments[],
     open?: boolean
   ) {
     request ? (this.request = request) : null;
@@ -68,7 +68,7 @@ export class Ticket {
   owner: User;
 
   @Column()
-  comments: [ITicketComments];
+  comments: ITicketComments[];
 
   @Column({ nullable: false, default: true })
   open: boolean;
@@ -117,6 +117,7 @@ export class Ticket {
       // this Ticket has previous comments
       // pc ! null -> pc has existing comments
       pc.push(comment);
+
       await this.uc(pc); // update..
       return true;
     } else {
@@ -134,13 +135,13 @@ export class Ticket {
 
   // update comments
   private async uc(comments: ITicketComments[]) {
-    await Ticket.repo().update(this, { comments });
+    await Conn.manager().update(Ticket, { id: this.id }, { comments });
   }
 
   // open or close ticket
   async openOrCloseTicket() {
     // update state of ticket
-    await Ticket.repo().update(this, { open: !this.open });
+    await Conn.manager().update(Ticket, { id: this.id }, { open: !this.open });
   }
 
   // Load Comments
