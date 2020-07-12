@@ -70,9 +70,20 @@ This repository has been deployed with docker container on heroku [playground](h
 
 # Using Project
 
-In [playground](https://fliqpay.herokuapp.com/playground) copy and paste queries with 
+In [playground](https://fliqpay.herokuapp.com/playground) copy and paste queries from [Postman Docs](https://documenter.getpostman.com/view/10077490/T17NZjAq?version=latest) with 
 variables to run operation, examples are defined below
-for easy use. Users in example exist in database
+for easy use. Users in example exist in the database.
+
+**MongoDB UR**
+
+mongodb://netbot:1234567890a@ds363098.mlab.com:63098/fpay-customer-service
+
+
+**PlayGround Settings**
+
+GraphQl playground does not include session + credentials from login by default, change setting to include credentials
+
+![credentials](./doc/include-credentials.png)
 
 **Mutations --Register**
 
