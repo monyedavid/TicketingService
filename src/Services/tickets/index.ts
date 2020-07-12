@@ -94,16 +94,20 @@ export default class TicketingService {
 
     const ticket = (await Ticket.repo().findByIds([ticketId]))[0];
 
-    const postedComment = await ticket.nc({
+    const comment = {
       user_id: new ObjectID(this.session.user_id),
       admin: this.session.user.role == 1,
       comment: reply,
       createdAt: new Date(),
       full_name:
         this.session.user.first_name + " " + this.session.user.last_name,
-    });
+    };
+
+    const postedComment = await ticket.nc(comment);
 
     if (postedComment) {
+      // publish -- to channel
+      this.gcf ? this.gcf({ ...comment }) : null;
       return { ok: true, message: "success", status: 200 };
     } else {
       return {
