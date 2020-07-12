@@ -74,7 +74,7 @@ In [playground](https://fliqpay.herokuapp.com/playground) copy and paste queries
 variables to run operation, examples are defined below
 for easy use. Users in example exist in database
 
-**Register Mutations**
+**Mutations --Register**
 
 ![Reg](./doc/register.png)
 
@@ -116,7 +116,7 @@ mutation register(
 }
 ```
 
-**Login Mutations**
+**Mutations --Login**
 
 ![Login](./doc/login.png)
 
@@ -187,4 +187,60 @@ subscription {
     admin
   }
 }
+```
+
+**Mutations --ReplyTickets**
+
+Leave comments on a ticket, successfully comments on this mutation will be published to raisedTicket channels
+
+![reply ticket](./doc/mutation-reply-ticket.png)
+
+```graphql endpoint doc
+# Reply a Ticket, Admin-User & Ticket-Owner restriction
+mutation ReplyTicket($reply: String!, $id: String!) {
+  replyTicket(reply: $reply, ticketId: $id) {
+    ok
+    message
+    status
+    error {
+      path
+      message
+    }
+  }
+}
+
+
+{
+  "reply": "tested sub channels",
+  "id": "5f0ae0a9de02ba290cd5576d"
+}
+```
+
+**Mutations --RaiseTicket**
+
+Raise ticket. only customer(s) can raise tickets.
+
+![raise ticket](./doc/mutation-raise-ticket.png)
+
+
+```graphql endpoint doc
+# Raise a Ticket, Customer-User restriction
+mutation RaiseTicket($request: String!) {
+  raiseTicket(request: $request) {
+    ok
+    message
+    status
+    error {
+      path
+      message
+    }
+  }
+}
+
+# Query variables
+
+{
+  "request": "this is anther new ticket"
+}
+
 ```
