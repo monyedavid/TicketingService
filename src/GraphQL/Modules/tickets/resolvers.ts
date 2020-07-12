@@ -14,6 +14,7 @@ import {
 } from "../../../Utils/constants";
 import TicketingService from "../../../Services/tickets";
 import { ObjectID } from "mongodb";
+import { decodeToken } from "../../../Utils/token";
 
 /**
  * @function              Partial, curried functions
@@ -150,6 +151,15 @@ export const resolvers: ResolverMap = {
   Subscription: {
     raisedTickets: {
       // by design let every-one see new raised Tickets or not????????
+      resolve: async (payload, args, context, info) => {
+        const { invalid, decodedValue } = await decodeToken(args.token);
+
+        if (!invalid && decodedValue.role == 1) {
+          return payload.raisedTickets;
+        }
+
+        return;
+      },
       subscribe: (_, __, { pubSub }) => {
         return pubSub.asyncIterator(PUB_SUB_RAISE_TICKET);
       },

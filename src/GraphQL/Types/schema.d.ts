@@ -240,12 +240,17 @@ replyTicket: IITicketComment;
 /**
  * Add a new Ticket to raise-new-ticket channel
 * Tickets can only be raised by customers?!
+* Only admins can view this channel
  */
-raisedTickets: ITicket;
+raisedTickets: ITicket | null;
 }
 
 interface IReplyTicketOnSubscriptionArguments {
 ticketId: string;
+}
+
+interface IRaisedTicketsOnSubscriptionArguments {
+token: string;
 }
 
 interface IFile {

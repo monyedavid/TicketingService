@@ -66,6 +66,7 @@ export const decodeToken = async (encrypt_id: string, redis?: Redis) => {
     };
     return returnValue;
   } catch (err) {
+    console.log("error", err);
     return { invalid: true };
   }
 };
