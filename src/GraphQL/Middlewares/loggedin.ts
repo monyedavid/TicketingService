@@ -4,7 +4,7 @@ import { Ticket } from "../../Database/entities/Tickets";
 import { ObjectID } from "mongodb";
 
 /**
- * @default         middleware function
+ * @default         middleware function | Me request
  * @description     Middleware to check if valid session & user(Admin|Customer) is attached to request
  * @param resolver  type Resolver
  * @param parent    any

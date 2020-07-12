@@ -3,9 +3,10 @@ import { PubSub, withFilter } from "graphql-yoga";
 import { ResolverMap } from "../../Utils/graphql-utile";
 
 import { createMiddleWare } from "../../Utils/createMiddleWare";
-import CustomerLoggedInMw, {
+import {
   LoadCommentsMiddleWare,
   logged_in_admin as AdminLoggedInMw,
+  logged_in_customer as CustomerLoggedInMw,
 } from "../../Middlewares/loggedin";
 import {
   PUB_SUB_RAISE_TICKET,
