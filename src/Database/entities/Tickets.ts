@@ -89,8 +89,7 @@ export class Ticket {
     ownerId: ObjectID
   ): Promise<ITicket[]> {
     const tickets = await Conn.manager().find(Ticket, {
-      open,
-      where: { "owner.id": ownerId },
+      where: { "owner.id": ownerId, open },
     });
 
     return tickets.map(ITFormatter);
