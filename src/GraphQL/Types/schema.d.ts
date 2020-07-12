@@ -89,7 +89,7 @@ id: string;
 open: boolean | null;
 request: string;
 owner: string;
-createdDate: any;
+createdDate: string;
 }
 
 interface IQTcD {
@@ -121,7 +121,7 @@ __typename: "ITicketComment";
 user_id: string;
 full_name: string;
 comment: string;
-createdAt: any;
+createdAt: string;
 admin: boolean;
 }
 

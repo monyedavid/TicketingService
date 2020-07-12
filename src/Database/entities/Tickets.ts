@@ -8,7 +8,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from "typeorm";
-
+import moment from "moment";
 import { User } from "./User";
 import Conn from "../../Services/connections";
 
@@ -16,7 +16,7 @@ interface ITicketComments {
   user_id: ObjectID; // Admin ID | Customer ID
   full_name: string;
   comment: string;
-  createdAt: Date;
+  createdAt: Date | string;
   admin: boolean; // determine if customer or admin made comment
 }
 
@@ -65,14 +65,16 @@ export class Ticket {
 
   // create and insert new Ticket object'
   static async ci({ request, owner }: INewTicketArgs) {
-    const ticket = await Conn.manager().save(new Ticket(request, owner));
+    const ownerE = owner;
+    delete ownerE["password"]; // exclude password from partial owner-User objcet
+    const ticket = await Conn.manager().save(new Ticket(request, ownerE));
 
     return {
       id: ticket.id,
       open: ticket.open,
       request: ticket.request,
       owner: ticket.owner.id,
-      createdDate: ticket.createdDate,
+      createdDate: moment(ticket.createdDate).format(),
     };
   }
 

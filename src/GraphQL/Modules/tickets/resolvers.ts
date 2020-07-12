@@ -22,7 +22,7 @@ import { ObjectID } from "typeorm";
  * @param replyTicket     Payload
  */
 
-function PublishtTicketReply(
+function PublishTicketReply(
   pubSub: PubSub,
   ticketId: string,
   replyTicket: IITicketComment
@@ -36,12 +36,12 @@ function PublishtTicketReply(
 /**
  * @function              Partial, curried functions
  * @param pubSub          PubSub instance
- * @param raiseTicket     Payload
+ * @param raisedTickets    interface ITicket -- Publish Data
  */
 
-function PublishRaisedTicket(pubSub: PubSub, raiseTicket: ITicket) {
+function PublishRaisedTicket(pubSub: PubSub, raisedTickets: ITicket) {
   pubSub.publish(PUB_SUB_RAISE_TICKET, {
-    raiseTicket,
+    raisedTickets,
   });
 }
 
@@ -115,7 +115,7 @@ export const resolvers: ResolverMap = {
       ) => {
         if (!middleware_result.ok) return middleware_result;
 
-        const partialPublish = PublishtTicketReply.bind(null, pubSub, ticketId);
+        const partialPublish = PublishTicketReply.bind(null, pubSub, ticketId);
 
         return middleware_result;
       }
@@ -125,8 +125,9 @@ export const resolvers: ResolverMap = {
   Subscription: {
     raisedTickets: {
       // by design let every-one see new raised Tickets or not????????
-      subscribe: (_, __, { pubSub }) =>
-        pubSub.asyncIterator(PUB_SUB_RAISE_TICKET),
+      subscribe: (_, __, { pubSub }) => {
+        return pubSub.asyncIterator(PUB_SUB_RAISE_TICKET);
+      },
     },
 
     replyTicket: {

@@ -62,7 +62,7 @@ type Ticket {
     open: Boolean
     request: String!
     owner: ID! # Customer who requested ticket (*￣3￣)╭
-    createdDate: Date!
+    createdDate: String!
 }
 
 type CommentsHistory {
@@ -75,6 +75,6 @@ type ITicketComment {
     user_id: ID!
     full_name: String!
     comment: String!
-    createdAt: Date!
+    createdAt: String!
     admin: Boolean! # Was this comment made by admin?
 }
