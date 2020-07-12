@@ -36,7 +36,7 @@ export default class TicketingService {
       // Admin return all Tickets in Entry | open/closed
       return {
         ok: true,
-        message: `${state} tickets`,
+        message: `${state ? "open" : "closed"} tickets`,
         status: 200,
         data: await Ticket.getEntitiesOpenFilter(state),
       };
@@ -45,7 +45,7 @@ export default class TicketingService {
     // Customer ->> return all Tickets associated with user_id | open/closed
     return {
       ok: true,
-      message: `${state} tickets`,
+      message: `${state ? "open" : "closed"} tickets`,
       status: 200,
       data: await Ticket.getOwnerTagEntitiesOpenFilter(
         state,

@@ -17,7 +17,7 @@ type Query {
 
     # Load all tickets made by customer
     # Filter open or closed
-    myTickets(open: Boolean!): QTD!
+    myTickets(state: Boolean!): QTD!
 
     # Load comments on ticket
     # Admin(s) & Customer owner of ticket access restriction

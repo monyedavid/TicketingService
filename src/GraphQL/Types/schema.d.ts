@@ -53,7 +53,7 @@ oauth: IOauthRedirect | null;
 }
 
 interface IMyTicketsOnQueryArguments {
-open: boolean;
+state: boolean;
 }
 
 interface ILoadTCommentHistoryOnQueryArguments {
@@ -171,7 +171,7 @@ __typename: "Mutation";
 /**
  * Reply ticket in private channel
 * accesible only customer who raised ticket & any admin
-* can be rejcetd
+* can be rejecetd
  */
 replyTicket: ITResponse;
 

@@ -49,28 +49,35 @@ export const resolvers: ResolverMap = {
   Query: {
     openTickets: createMiddleWare(
       AdminLoggedInMw,
-      async (_, __, { middleware_result }) => {
+      async (_, __, { session, middleware_result }) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const service = new TicketingService(session);
+        return await service.get(true);
       }
     ),
 
     closedTickets: createMiddleWare(
       AdminLoggedInMw,
-      async (_, __, { middleware_result }) => {
+      async (_, __, { session, middleware_result }) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const service = new TicketingService(session);
+        return await service.get();
       }
     ),
 
     myTickets: createMiddleWare(
       CustomerLoggedInMw,
-      async (_, __, { middleware_result }) => {
+      async (
+        _,
+        { state }: GQL.IMyTicketsOnQueryArguments,
+        { session, middleware_result }
+      ) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const service = new TicketingService(session);
+        return await service.get(state);
       }
     ),
 
