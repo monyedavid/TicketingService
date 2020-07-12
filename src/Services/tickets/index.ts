@@ -20,9 +20,38 @@ export default class TicketingService {
     this.session = session;
   }
 
-  async get(open: boolean = false) {
-    // Admin return all Tickets in Entry | open/closed
-    // Customer return all Tickets associated with user_id | open/clsoed
+  async get(
+    state: boolean = false
+  ): Promise<{
+    ok: boolean;
+    message?: string;
+    status: number;
+    error?: {
+      path: string;
+      message: string;
+    }[];
+    data?: ITicket[];
+  }> {
+    if (this.session.user.role == 1) {
+      // Admin return all Tickets in Entry | open/closed
+      return {
+        ok: true,
+        message: `${state} tickets`,
+        status: 200,
+        data: await Ticket.getEntitiesOpenFilter(state),
+      };
+    }
+
+    // Customer ->> return all Tickets associated with user_id | open/closed
+    return {
+      ok: true,
+      message: `${state} tickets`,
+      status: 200,
+      data: await Ticket.getOwnerTagEntitiesOpenFilter(
+        state,
+        new ObjectID(this.session.user_id)
+      ),
+    };
   }
 
   async create(

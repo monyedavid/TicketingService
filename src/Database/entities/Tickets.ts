@@ -12,6 +12,14 @@ import moment from "moment";
 import { User } from "./User";
 import Conn from "../../Services/connections";
 
+interface ITicket {
+  id: string | ObjectID;
+  open: boolean | null;
+  request: string;
+  owner: string | ObjectID;
+  createdDate: any;
+}
+
 interface ITicketComments {
   user_id: ObjectID; // Admin ID | Customer ID
   full_name: string;
@@ -67,6 +75,26 @@ export class Ticket {
 
   @Column({ nullable: false, default: new Date() })
   createdDate: Date;
+
+  // read Tickets -- Documents filtered only by open state
+  static async getEntitiesOpenFilter(open: boolean): Promise<ITicket[]> {
+    const tickets = await Conn.manager().find(Ticket, { open });
+
+    return tickets.map(ITFormatter);
+  }
+
+  // read Tickets -- Documents filtered by open state & owner id
+  static async getOwnerTagEntitiesOpenFilter(
+    open: boolean,
+    ownerId: ObjectID
+  ): Promise<ITicket[]> {
+    const tickets = await Conn.manager().find(Ticket, {
+      open,
+      where: { "owner.id": ownerId },
+    });
+
+    return tickets.map(ITFormatter);
+  }
 
   // create class access to mongo repositories
   static repo(): MongoRepository<Ticket> {
