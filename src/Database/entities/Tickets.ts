@@ -111,24 +111,29 @@ export class Ticket {
 
   // create new comment
   async nc(comment: ITicketComments): Promise<boolean> {
-    const pc = this.comments;
+    const pc = this.comments ? this.comments : [];
 
-    if (pc.length) {
+    if (pc && pc.length) {
+      // this Ticket has previous comments
       // pc ! null -> pc has existing comments
       pc.push(comment);
-      // update..
-      await this.uc(pc);
-    } else if (comment.admin) {
-      // new comment by admin
-      pc.push(comment);
-      await this.uc(pc);
-    } else return false; // attempted comment by customer
-
-    return true;
+      await this.uc(pc); // update..
+      return true;
+    } else {
+      // this Ticket doesnt have previous comments
+      if (comment.admin) {
+        // comment is being made by admin
+        pc.push(comment);
+        await this.uc(pc);
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   // update comments
-  private async uc(comments: [ITicketComments]) {
+  private async uc(comments: ITicketComments[]) {
     await Ticket.repo().update(this, { comments });
   }
 

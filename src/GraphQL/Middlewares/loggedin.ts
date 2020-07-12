@@ -218,7 +218,9 @@ export const TicketCollaboratorsMw = async (
       } else {
         // session.user.role == 2
         // user ->> customer , ticket.owner == ObjectID(session.user_id)
-        if (new ObjectID(session.user_id) == ticket.owner.id) {
+        if (
+          new ObjectID(session.user_id).toString() == ticket.owner.id.toString()
+        ) {
           // user owns ticket
           return await resolver(
             parent,
@@ -248,7 +250,7 @@ export const TicketCollaboratorsMw = async (
                 error: [
                   {
                     path: "auth",
-                    message: "you dont have access rights to view this ticket",
+                    message: "you dont have access rights to this ticket",
                   },
                 ],
               },

@@ -94,7 +94,7 @@ export default class TicketingService {
 
     const ticket = (await Ticket.repo().findByIds([ticketId]))[0];
 
-    const postedComment = ticket.nc({
+    const postedComment = await ticket.nc({
       user_id: new ObjectID(this.session.user_id),
       admin: this.session.user.role == 1,
       comment: reply,
