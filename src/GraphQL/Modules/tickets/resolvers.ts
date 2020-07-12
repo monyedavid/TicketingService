@@ -4,7 +4,7 @@ import { ResolverMap } from "../../Utils/graphql-utile";
 
 import { createMiddleWare } from "../../Utils/createMiddleWare";
 import {
-  LoadCommentsMiddleWare,
+  TicketCollaboratorsMw,
   logged_in_admin as AdminLoggedInMw,
   logged_in_customer as CustomerLoggedInMw,
 } from "../../Middlewares/loggedin";
@@ -75,7 +75,7 @@ export const resolvers: ResolverMap = {
     ),
 
     loadTCommentHistory: createMiddleWare(
-      LoadCommentsMiddleWare, // will convert string Ticket ID ->> Object ID ^_^, admin(s) & ticket owner can view comment history
+      TicketCollaboratorsMw, // will convert string Ticket ID ->> Object ID ^_^, admin(s) & ticket owner can view comment history
       async (
         _,
         { ticketId }: GQL.ILoadTCommentHistoryOnQueryArguments,
@@ -107,7 +107,7 @@ export const resolvers: ResolverMap = {
     ),
 
     replyTicket: createMiddleWare(
-      CustomerLoggedInMw,
+      TicketCollaboratorsMw,
       async (
         _,
         { reply, ticketId }: GQL.IReplyTicketOnMutationArguments,
@@ -116,6 +116,19 @@ export const resolvers: ResolverMap = {
         if (!middleware_result.ok) return middleware_result;
 
         const partialPublish = PublishTicketReply.bind(null, pubSub, ticketId);
+
+        return middleware_result;
+      }
+    ),
+
+    changeTicketState: createMiddleWare(
+      AdminLoggedInMw,
+      async (
+        _,
+        { ticket_id }: GQL.IChangeTicketStateOnMutationArguments,
+        { middleware_result }
+      ) => {
+        if (!middleware_result.ok) return middleware_result;
 
         return middleware_result;
       }

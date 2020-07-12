@@ -109,7 +109,7 @@ export const logged_in_admin = async (
         error: [
           {
             path: "login",
-            message: "no admin user detected, authenticate and try again",
+            message: "no admin user detected, re-authenticate",
           },
         ],
       },
@@ -184,7 +184,7 @@ export const logged_in_customer = async (
  * @param context   interface Context, define context of graphql context
  * @param info      any
  */
-export const LoadCommentsMiddleWare = async (
+export const TicketCollaboratorsMw = async (
   resolver: Resolver,
   parent: any,
   args: GQL.ILoadTCommentHistoryOnQueryArguments,

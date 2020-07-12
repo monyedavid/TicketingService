@@ -36,6 +36,10 @@ type Mutation {
     # Tickets can only be raised by customers?!
     # can be rejcetd
     raiseTicket(request: String!): T_response!
+
+    # Admin ECA
+    # Open | Close Ticket
+    changeTicketState(ticket_id: String!): T_response!
 }
 
 type QTD { # Query Ticket Data ->> excludes comments must be requested?

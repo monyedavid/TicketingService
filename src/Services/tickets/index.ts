@@ -6,6 +6,7 @@ import {
   IITicketComment,
 } from "../../GraphQL/Modules/tickets/resolvers";
 import { Ticket } from "../../Database/entities/Tickets";
+import { ObjectID } from "mongodb";
 
 export default class TicketingService {
   /**
@@ -46,7 +47,48 @@ export default class TicketingService {
 
   async comment() {}
 
-  async openClose() {}
+  /**
+   * @param id     Ticket ID
+   * @description  Admin ECA: open / close ticket(cannot be commented on)
+   */
+  async openClose(
+    id: string
+  ): Promise<{
+    ok: boolean;
+    message?: string;
+    status: number;
+    error?: {
+      path: string;
+      message: string;
+    }[];
+  }> {
+    const tickets = await Ticket.repo().findByIds([new ObjectID(id)]);
+
+    if (tickets.length) {
+      const ticket = tickets[0];
+
+      await ticket.openORcloseTicket(); // close if open, open if close ༼ つ ◕_◕ ༽つ
+      return {
+        ok: true,
+        message: `successfully ${ticket.open ? "closed" : "opened"} ticket @ ${
+          ticket.id
+        }`,
+        status: 200,
+      };
+    }
+
+    return {
+      ok: false,
+      message: "Ticket not found",
+      status: 401,
+      error: [
+        {
+          path: "ticket status",
+          message: "Ticket not Found",
+        },
+      ],
+    };
+  }
 
   gcf: GCF;
   rcf: any;

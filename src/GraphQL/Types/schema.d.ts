@@ -181,6 +181,12 @@ replyTicket: ITResponse;
 * can be rejcetd
  */
 raiseTicket: ITResponse;
+
+/**
+ * Admin ECA
+* Open | Close Ticket
+ */
+changeTicketState: ITResponse;
 login: ITResponse;
 logout: ITResponse;
 register: ITResponse;
@@ -193,6 +199,10 @@ reply: string;
 
 interface IRaiseTicketOnMutationArguments {
 request: string;
+}
+
+interface IChangeTicketStateOnMutationArguments {
+ticket_id: string;
 }
 
 interface ILoginOnMutationArguments {
