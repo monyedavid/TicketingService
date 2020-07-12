@@ -86,11 +86,12 @@ export const resolvers: ResolverMap = {
       async (
         _,
         { ticketId }: GQL.ILoadTCommentHistoryOnQueryArguments,
-        { middleware_result }
+        { session, middleware_result }
       ) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const service = new TicketingService(session);
+        return await service.loadComments(new ObjectID(ticketId));
       }
     ),
   },

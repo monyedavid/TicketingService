@@ -58,7 +58,7 @@ type QTcD { # Query Ticket-Comment Data
     status: Int!
     error: [Error!]
     # Data -> Tickets or Comments under a Ticket
-    comments: [CommentsHistory]
+    history: CommentsHistory!
 }
 
 type Ticket {

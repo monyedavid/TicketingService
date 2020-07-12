@@ -106,7 +106,7 @@ error: Array<IError> | null;
 /**
  * Data -> Tickets or Comments under a Ticket
  */
-comments: Array<ICommentsHistory | null> | null;
+history: ICommentsHistory;
 }
 
 interface ICommentsHistory {

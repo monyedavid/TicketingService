@@ -147,7 +147,7 @@ export class Ticket {
   // Load Comments
   async loadComments() {
     return {
-      id: this.id,
+      ticketId: this.id,
       open: this.open,
       comments: this.comments,
     };

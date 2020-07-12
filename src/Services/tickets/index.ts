@@ -124,7 +124,16 @@ export default class TicketingService {
     }
   }
 
-  async loadComments() {}
+  async loadComments(ticketId: ObjectID) {
+    const ticket = (await Ticket.repo().findByIds([ticketId]))[0];
+
+    return {
+      ok: true,
+      message: "success",
+      status: 200,
+      history: await ticket.loadComments(),
+    };
+  }
 
   /**
    * @param id     Ticket ID
