@@ -154,9 +154,13 @@ mutation Login ($email: String!, $password: String!) {
 
 **Subscription --Raise Ticket**
 
+This is a ws channel, real time update of created tickets
+
 ![raise tickets](./doc/raised-tickets-subs.png)
 
-This is a ws channel, real time update of created tickets
+The Raise ticket channel is restricted to admins, authentication via the token passed in as query variable 
+
+![raise ticket](./doc/rts2.png)
 
 ```graphql endpoint doc
 # Open channel for customers to post Tickets(requests/issues)
