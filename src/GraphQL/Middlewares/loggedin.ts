@@ -52,8 +52,7 @@ export default async (
         error: [
           {
             path: "login",
-            message:
-              "no customer - user detected, re-authenticate and try again",
+            message: "no user detected, re-authenticate",
           },
         ],
       },

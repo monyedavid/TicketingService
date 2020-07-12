@@ -7,7 +7,46 @@ import CustomerLoggedInMw, {
   LoadCommentsMiddleWare,
   logged_in_admin as AdminLoggedInMw,
 } from "../../Middlewares/loggedin";
-import { PUB_SUB_RAISE_TICKET } from "../../../Utils/constants";
+import {
+  PUB_SUB_RAISE_TICKET,
+  PUB_SUB_REPLY_TICKET,
+} from "../../../Utils/constants";
+
+/**
+ * @function              Partial, curried functions
+ * @param pubSub          PubSub instance
+ * @param ticketId        Channel filtering
+ * @param replyTicket     Payload
+ */
+
+function PublishtTicketReply(
+  pubSub: PubSub,
+  ticketId: string,
+  replyTicket: GQL.ITResponse
+) {
+  pubSub.publish(PUB_SUB_REPLY_TICKET, {
+    replyTicket,
+    ticketId,
+  });
+}
+
+/**
+ * @function              Partial, curried functions
+ * @param pubSub          PubSub instance
+ * @param ticketId        Channel filtering
+ * @param raiseTicket     Payload
+ */
+
+function PublishtRaisedTicket(
+  pubSub: PubSub,
+  ticketId: string,
+  raiseTicket: GQL.ITResponse
+) {
+  pubSub.publish(PUB_SUB_RAISE_TICKET, {
+    raiseTicket,
+    ticketId,
+  });
+}
 
 export const resolvers: ResolverMap = {
   Query: {
@@ -52,6 +91,34 @@ export const resolvers: ResolverMap = {
     ),
   },
 
+  Mutation: {
+    raiseTicket: createMiddleWare(
+      CustomerLoggedInMw,
+      async (
+        _,
+        { request }: GQL.IRaiseTicketOnMutationArguments,
+        { middleware_result }
+      ) => {
+        if (!middleware_result.ok) return middleware_result;
+
+        return middleware_result;
+      }
+    ),
+
+    replyTicket: createMiddleWare(
+      CustomerLoggedInMw,
+      async (
+        _,
+        { reply, ticketId }: GQL.IReplyTicketOnMutationArguments,
+        { middleware_result }
+      ) => {
+        if (!middleware_result.ok) return middleware_result;
+
+        return middleware_result;
+      }
+    ),
+  },
+
   Subscription: {
     raisedTickets: {
       subscribe: (_, __, { pubSub }) =>
@@ -60,9 +127,9 @@ export const resolvers: ResolverMap = {
 
     replyTicket: {
       subscribe: withFilter(
-        (_, __, { pubSub }) => pubSub.asyncIterator(PUB_SUB_RAISE_TICKET),
+        (_, __, { pubSub }) => pubSub.asyncIterator(PUB_SUB_REPLY_TICKET),
         (payload, variables) => {
-          return payload.queryId === variables.queryId;
+          return payload.ticketId === variables.ticketId;
         }
       ),
     },
