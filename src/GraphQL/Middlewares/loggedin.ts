@@ -60,6 +60,16 @@ export default async (
   );
 };
 
+/**
+ * @logged_in_admin         middleware function
+ * @description     Middleware to check if valid session & user(Admin) is attached to request
+ * @param resolver  type Resolver
+ * @param parent    any
+ * @param args      Mutation or Query Arguments
+ * @param context   interface Context, define context of graphql context
+ * @param info      any
+ */
+
 export const logged_in_admin = async (
   resolver: Resolver,
   parent: any,
@@ -108,6 +118,72 @@ export const logged_in_admin = async (
   );
 };
 
+/**
+ * @logged_in_admin         middleware function
+ * @description     Middleware to check if valid session & user(Customer) is attached to request
+ * @param resolver  type Resolver
+ * @param parent    any
+ * @param args      Mutation or Query Arguments
+ * @param context   interface Context, define context of graphql context
+ * @param info      any
+ */
+export const logged_in_customer = async (
+  resolver: Resolver,
+  parent: any,
+  args: any,
+  context: Context,
+  info: any
+) => {
+  const { session } = context;
+
+  if (await logged_in_helper(session)) {
+    if (session.user.role == 2)
+      return await resolver(
+        parent,
+        args,
+        {
+          ...context,
+          middleware_result: {
+            ok: true,
+            message: "valid customer found",
+            status: 200,
+            error: null,
+          },
+        },
+        info
+      );
+  }
+
+  return await resolver(
+    parent,
+    args,
+    {
+      ...context,
+      middleware_result: {
+        ok: false,
+        message: "protected route",
+        status: 401,
+        error: [
+          {
+            path: "login",
+            message: "no admin user detected, authenticate and try again",
+          },
+        ],
+      },
+    },
+    info
+  );
+};
+
+/**
+ * @logged_in_admin         middleware function
+ * @description     Middleware to check if valid session & user(Admin | Customer {owner of ticket restriction}) is attached to request
+ * @param resolver  type Resolver
+ * @param parent    any
+ * @param args      Mutation or Query Arguments
+ * @param context   interface Context, define context of graphql context
+ * @param info      any
+ */
 export const LoadCommentsMiddleWare = async (
   resolver: Resolver,
   parent: any,
@@ -116,10 +192,10 @@ export const LoadCommentsMiddleWare = async (
   info: any
 ) => {
   const { session } = context;
-  const ticketIdObjectId = new ObjectID(args.ticketId);
+  const id = new ObjectID(args.ticketId);
 
   // find Ticket
-  const ticket = await Ticket.repo().findOne({ id: ticketIdObjectId });
+  const ticket = (await Ticket.repo().findByIds([id]))[0];
 
   if (ticket) {
     if (await logged_in_helper(session)) {
