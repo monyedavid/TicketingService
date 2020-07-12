@@ -64,8 +64,16 @@ export class Ticket {
   }
 
   // create and insert new Ticket object'
-  static async ci({ request, owner }: INewTicketArgs): Promise<Ticket> {
-    return await Conn.manager().save(new Ticket(request, owner));
+  static async ci({ request, owner }: INewTicketArgs) {
+    const ticket = await Conn.manager().save(new Ticket(request, owner));
+
+    return {
+      id: ticket.id,
+      open: ticket.open,
+      request: ticket.request,
+      owner: ticket.owner.id,
+      createdDate: ticket.createdDate,
+    };
   }
 
   // create new comment

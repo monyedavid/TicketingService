@@ -166,7 +166,7 @@ export const logged_in_customer = async (
         error: [
           {
             path: "login",
-            message: "no admin user detected, authenticate and try again",
+            message: "no customer user detected, re-authenticate",
           },
         ],
       },

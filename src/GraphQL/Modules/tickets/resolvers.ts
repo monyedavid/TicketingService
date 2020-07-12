@@ -12,6 +12,8 @@ import {
   PUB_SUB_RAISE_TICKET,
   PUB_SUB_REPLY_TICKET,
 } from "../../../Utils/constants";
+import TicketingService from "../../../Services/tickets";
+import { ObjectID } from "typeorm";
 
 /**
  * @function              Partial, curried functions
@@ -23,7 +25,7 @@ import {
 function PublishtTicketReply(
   pubSub: PubSub,
   ticketId: string,
-  replyTicket: GQL.ITResponse
+  replyTicket: IITicketComment
 ) {
   pubSub.publish(PUB_SUB_REPLY_TICKET, {
     replyTicket,
@@ -34,18 +36,12 @@ function PublishtTicketReply(
 /**
  * @function              Partial, curried functions
  * @param pubSub          PubSub instance
- * @param ticketId        Channel filtering
  * @param raiseTicket     Payload
  */
 
-function PublishtRaisedTicket(
-  pubSub: PubSub,
-  ticketId: string,
-  raiseTicket: GQL.ITResponse
-) {
+function PublishRaisedTicket(pubSub: PubSub, raiseTicket: ITicket) {
   pubSub.publish(PUB_SUB_RAISE_TICKET, {
     raiseTicket,
-    ticketId,
   });
 }
 
@@ -98,11 +94,15 @@ export const resolvers: ResolverMap = {
       async (
         _,
         { request }: GQL.IRaiseTicketOnMutationArguments,
-        { middleware_result }
+        { middleware_result, pubSub, session }
       ) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const partialPublish = PublishRaisedTicket.bind(null, pubSub);
+
+        const service = new TicketingService(session, partialPublish);
+
+        return await service.create(request);
       }
     ),
 
@@ -111,9 +111,11 @@ export const resolvers: ResolverMap = {
       async (
         _,
         { reply, ticketId }: GQL.IReplyTicketOnMutationArguments,
-        { middleware_result }
+        { middleware_result, pubSub }
       ) => {
         if (!middleware_result.ok) return middleware_result;
+
+        const partialPublish = PublishtTicketReply.bind(null, pubSub, ticketId);
 
         return middleware_result;
       }
@@ -122,6 +124,7 @@ export const resolvers: ResolverMap = {
 
   Subscription: {
     raisedTickets: {
+      // by design let every-one see new raised Tickets or not????????
       subscribe: (_, __, { pubSub }) =>
         pubSub.asyncIterator(PUB_SUB_RAISE_TICKET),
     },
@@ -136,3 +139,19 @@ export const resolvers: ResolverMap = {
     },
   },
 };
+
+export interface ITicket {
+  id: string | ObjectID;
+  open: boolean | null;
+  request: string;
+  owner: string | ObjectID;
+  createdDate: any;
+}
+
+export interface IITicketComment {
+  user_id: string | ObjectID;
+  full_name: string;
+  comment: string;
+  createdAt: any;
+  admin: boolean;
+}
