@@ -29,7 +29,7 @@ type Mutation {
 
     # Reply ticket in private channel
     # accesible only customer who raised ticket & any admin
-    # can be rejcetd
+    # can be rejecetd
     replyTicket(ticketId: String!, reply: String!): T_response!
 
     # Add a new Ticket to raise-new-ticket channel

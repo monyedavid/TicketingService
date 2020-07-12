@@ -76,7 +76,7 @@ export class Ticket {
   // create and insert new Ticket object'
   static async ci({ request, owner }: INewTicketArgs) {
     const ownerE = owner;
-    delete ownerE["password"]; // exclude password from partial owner-User objcet
+    delete ownerE["password"]; // exclude password from partial owner-User object
     const ticket = await Conn.manager().save(new Ticket(request, ownerE));
 
     return ITFormatter(ticket);

@@ -25,7 +25,7 @@ import { ObjectID } from "typeorm";
 function PublishTicketReply(
   pubSub: PubSub,
   ticketId: string,
-  replyTicket: IITicketComment
+  replyTicket: ITicketComment
 ) {
   pubSub.publish(PUB_SUB_REPLY_TICKET, {
     replyTicket,
@@ -164,7 +164,7 @@ export interface ITicket {
   createdDate: any;
 }
 
-export interface IITicketComment {
+export interface ITicketComment {
   user_id: string | ObjectID;
   full_name: string;
   comment: string;

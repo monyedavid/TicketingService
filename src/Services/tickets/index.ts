@@ -3,7 +3,7 @@ import { User } from "../../Database/entities/User";
 import { Session } from "../../GraphQL/Utils/graphql-utile";
 import {
   ITicket,
-  IITicketComment,
+  ITicketComment,
 } from "../../GraphQL/Modules/tickets/resolvers";
 import { Ticket } from "../../Database/entities/Tickets";
 import { ObjectID } from "mongodb";
@@ -20,7 +20,10 @@ export default class TicketingService {
     this.session = session;
   }
 
-  async get(open: boolean = false) {}
+  async get(open: boolean = false) {
+    // Admin return all Tickets in Entry | open/closed
+    // Customer return all Tickets associated with user_id | open/clsoed
+  }
 
   async create(
     request: string
@@ -95,4 +98,4 @@ export default class TicketingService {
   session: Session; // current user session
 }
 
-export type GCF = (publishPayload: ITicket | IITicketComment) => any;
+export type GCF = (publishPayload: ITicket | ITicketComment) => any;
