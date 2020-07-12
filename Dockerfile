@@ -1,12 +1,11 @@
 FROM node
 
-WORKDIR /wrn-server
+WORKDIR /fliq-pay
 
 COPY ./package.json .
 
-RUN npm i -g yarn
 RUN npm i -g reflect-metadata
-RUN yarn install
+RUN npm install
 
 COPY ./build  ./build
 COPY ./.env  .
