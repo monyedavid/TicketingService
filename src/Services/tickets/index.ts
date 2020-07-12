@@ -99,7 +99,8 @@ export default class TicketingService {
       admin: this.session.user.role == 1,
       comment: reply,
       createdAt: new Date(),
-      full_name: this.session.user.first_name + this.session.user.last_name,
+      full_name:
+        this.session.user.first_name + " " + this.session.user.last_name,
     });
 
     if (postedComment) {
