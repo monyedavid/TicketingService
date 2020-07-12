@@ -10,9 +10,27 @@ export const resolvers: ResolverMap = {
     register: async (
       _,
       args: GQL.IRegisterOnMutationArguments,
-      { redis, url }
+      { redis, url, session }
     ) => {
       const service = new LocalAuth(url);
+
+      if (args.role == 1) {
+        // creating admin:
+        if (session.user.role == 2) {
+          // !admin user
+          return {
+            ok: false,
+            message: "un-authorized",
+            status: 401,
+            error: [
+              {
+                path: "auth",
+                message: "you dont have prmission to perform this action",
+              },
+            ],
+          };
+        }
+      }
       return await service.register(args, redis);
     },
   },

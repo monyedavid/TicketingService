@@ -30,7 +30,7 @@ export default async (
         ...context,
         middleware_result: {
           ok: true,
-          message: "valid customer - found",
+          message: "valid user - found",
           status: 200,
           error: null,
         },

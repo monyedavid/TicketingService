@@ -141,7 +141,7 @@ export default class LocalAuth extends Base {
     return {
       ok: true,
       message: JSON.stringify({
-        todo: "successful login",
+        message: "successful login",
         token: await genToken(gsd(user)),
       }),
       status: 200,
