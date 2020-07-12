@@ -73,7 +73,7 @@ export const startServer = async () => {
    */
   const conn: Connection = await Conn.createTypeOrmConnection();
 
-  console.log(conn, "<- conn");
+  // console.log(conn, "<- conn");
 
   /**
    * @description   GraphQl Server Logger

@@ -1,6 +1,6 @@
 import { redis } from "../Services/cache";
 import { redisessionprefix, userseesionidPrefix } from "./constants";
-import { ObjectID } from "typeorm";
+import { ObjectID } from "mongodb";
 
 /**
  * @description    delete all the sessions of current user acroos devoices

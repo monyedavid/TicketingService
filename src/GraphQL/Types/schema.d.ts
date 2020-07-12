@@ -148,7 +148,7 @@ data: IMeData;
 
 interface IMeData {
 __typename: "me_data";
-id: number | null;
+id: string;
 first_name: string | null;
 last_name: string | null;
 email: string | null;

@@ -1,4 +1,4 @@
-import * as bcrypt from "bcryptjs";
+import { ObjectID } from "mongodb";
 import { Request } from "express-serve-static-core";
 import { removeAllUserSessions } from "../../../Utils/removeAllUserSessions";
 import { User } from "../../../Database/entities/User";
@@ -24,7 +24,8 @@ export default class CommonAuth extends Base {
     let me: User;
 
     try {
-      me = await User.repo().findOne(session.user_id);
+      const id = new ObjectID(session.user_id);
+      me = (await User.repo().findByIds([id]))[0];
     } catch (error) {
       return {
         ok: false,

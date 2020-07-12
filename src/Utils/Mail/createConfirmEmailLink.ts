@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import { Redis } from "ioredis";
-import { ObjectID } from "typeorm";
+import { ObjectID } from "mongodb";
 
 export const createConfirmEmailLink = async (
   url: string,

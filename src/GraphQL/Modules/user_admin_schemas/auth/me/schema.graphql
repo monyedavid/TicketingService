@@ -14,7 +14,7 @@ type me {
 }
 
 type me_data {
-    id: Int
+    id: ID!
 
     first_name: String
 

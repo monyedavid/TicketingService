@@ -1,11 +1,11 @@
 import { Resolver, Context } from "../Utils/graphql-utile";
 import { logged_in_helper } from "../../Utils/helper/loggedin_helper";
 import { Ticket } from "../../Database/entities/Tickets";
-import { ObjectID } from "typeorm";
+import { ObjectID } from "mongodb";
 
 /**
  * @default         middleware function
- * @description     Middleware to check if valid session & user is attched to request
+ * @description     Middleware to check if valid session & user(Admin|Customer) is attached to request
  * @param resolver  type Resolver
  * @param parent    any
  * @param args      Mutation or Query Arguments
@@ -23,21 +23,20 @@ export default async (
   const { session } = context;
 
   if (await logged_in_helper(session)) {
-    if (session.user.role == 2)
-      return await resolver(
-        parent,
-        args,
-        {
-          ...context,
-          middleware_result: {
-            ok: true,
-            message: "valid customer - found",
-            status: 200,
-            error: null,
-          },
+    return await resolver(
+      parent,
+      args,
+      {
+        ...context,
+        middleware_result: {
+          ok: true,
+          message: "valid customer - found",
+          status: 200,
+          error: null,
         },
-        info
-      );
+      },
+      info
+    );
   }
 
   return await resolver(
