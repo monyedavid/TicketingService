@@ -126,11 +126,13 @@ export const resolvers: ResolverMap = {
       async (
         _,
         { ticket_id }: GQL.IChangeTicketStateOnMutationArguments,
-        { middleware_result }
+        { middleware_result, session }
       ) => {
         if (!middleware_result.ok) return middleware_result;
 
-        return middleware_result;
+        const service = new TicketingService(session);
+
+        return await service.openClose(ticket_id);
       }
     ),
   },

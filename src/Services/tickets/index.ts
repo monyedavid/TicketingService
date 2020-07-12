@@ -67,7 +67,7 @@ export default class TicketingService {
     if (tickets.length) {
       const ticket = tickets[0];
 
-      await ticket.openORcloseTicket(); // close if open, open if close ༼ つ ◕_◕ ༽つ
+      await ticket.openOrCloseTicket(); // close if open, open if close ༼ つ ◕_◕ ༽つ
       return {
         ok: true,
         message: `successfully ${ticket.open ? "closed" : "opened"} ticket @ ${

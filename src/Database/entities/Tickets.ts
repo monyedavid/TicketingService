@@ -102,17 +102,13 @@ export class Ticket {
 
   // update comments
   private async uc(comments: [ITicketComments]) {
-    const partialEntity = new Ticket(null, null, comments); // partialEntity.comments = comments;
-
-    await Ticket.repo().update(this, partialEntity);
+    await Ticket.repo().update(this, { comments });
   }
 
   // open or close ticket
-  async openORcloseTicket() {
-    const partialEntity = new Ticket(null, null, null, !this.open); // partialEntity.open = !this.open;
-
+  async openOrCloseTicket() {
     // update state of ticket
-    await Ticket.repo().update(this, partialEntity);
+    await Ticket.repo().update(this, { open: !this.open });
   }
 
   // Load Comments
