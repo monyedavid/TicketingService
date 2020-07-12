@@ -105,9 +105,6 @@ export default class LocalAuth extends Base {
       return errorResponse;
     }
 
-    // TODO: Encrypt password with event listener @User Class
-    // TODO: update validation method with new encrypted password
-
     if (!(await user.verify(password))) {
       return errorResponse;
     }

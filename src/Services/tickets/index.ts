@@ -54,5 +54,3 @@ export default class TicketingService {
 }
 
 export type GCF = (publishPayload: ITicket | IITicketComment) => any;
-
-//  Promise<{ok: boolean, message: string, status: number, error: {path: string, message: string}[]}>

@@ -25,6 +25,16 @@ interface INewTicketArgs {
   owner?: User;
 }
 
+function ITFormatter(ticket: Ticket) {
+  return {
+    id: ticket.id,
+    open: ticket.open,
+    request: ticket.request,
+    owner: ticket.owner.id,
+    createdDate: moment(ticket.createdDate).format(),
+  };
+}
+
 @Entity()
 export class Ticket {
   private constructor(
@@ -69,13 +79,7 @@ export class Ticket {
     delete ownerE["password"]; // exclude password from partial owner-User objcet
     const ticket = await Conn.manager().save(new Ticket(request, ownerE));
 
-    return {
-      id: ticket.id,
-      open: ticket.open,
-      request: ticket.request,
-      owner: ticket.owner.id,
-      createdDate: moment(ticket.createdDate).format(),
-    };
+    return ITFormatter(ticket);
   }
 
   // create new comment
