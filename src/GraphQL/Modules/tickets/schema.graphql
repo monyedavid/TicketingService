@@ -48,7 +48,7 @@ type QTD { # Query Ticket Data ->> excludes comments must be requested?
     status: Int!
     error: [Error!]
     # Data -> Tickets or Comments under a Ticket
-    data: [Ticket]
+    tickets: [Ticket]
 }
 
 type QTcD { # Query Ticket-Comment Data
@@ -58,7 +58,7 @@ type QTcD { # Query Ticket-Comment Data
     status: Int!
     error: [Error!]
     # Data -> Tickets or Comments under a Ticket
-    data: [CommentsHistory]
+    comments: [CommentsHistory]
 }
 
 type Ticket {

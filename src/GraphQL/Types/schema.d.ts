@@ -74,7 +74,7 @@ error: Array<IError> | null;
 /**
  * Data -> Tickets or Comments under a Ticket
  */
-data: Array<ITicket | null> | null;
+tickets: Array<ITicket | null> | null;
 }
 
 interface IError {
@@ -106,7 +106,7 @@ error: Array<IError> | null;
 /**
  * Data -> Tickets or Comments under a Ticket
  */
-data: Array<ICommentsHistory | null> | null;
+comments: Array<ICommentsHistory | null> | null;
 }
 
 interface ICommentsHistory {

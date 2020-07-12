@@ -30,7 +30,7 @@ export default class TicketingService {
       path: string;
       message: string;
     }[];
-    data?: ITicket[];
+    tickets?: ITicket[];
   }> {
     if (this.session.user.role == 1) {
       // Admin return all Tickets in Entry | open/closed
@@ -38,7 +38,7 @@ export default class TicketingService {
         ok: true,
         message: `${state ? "open" : "closed"} tickets`,
         status: 200,
-        data: await Ticket.getEntitiesOpenFilter(state),
+        tickets: await Ticket.getEntitiesOpenFilter(state),
       };
     }
 
@@ -47,7 +47,7 @@ export default class TicketingService {
       ok: true,
       message: `${state ? "open" : "closed"} tickets`,
       status: 200,
-      data: await Ticket.getOwnerTagEntitiesOpenFilter(
+      tickets: await Ticket.getOwnerTagEntitiesOpenFilter(
         state,
         new ObjectID(this.session.user_id)
       ),
