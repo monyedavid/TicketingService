@@ -3,8 +3,11 @@
 This repository contains the solution to the FliqPay senior software engineering [test](https://docs.google.com/document/d/1sz_g5McxhBRze_VfK0QNWeN7J4BRuZzh0KZU6_bGyKo/edit)
 <br>
 
-Built with typescript, typeorm & graphql, this solution uses web-sockets, redis, & graphql subscriptions to create and comment 
-on tickets in real time
+Built with express, typescript, typeorm, graphql & mongodb, this solution uses web-sockets, redis, & graphql subscriptions to create and comment 
+on tickets in real time.
+
+Sessions + JWT are used for authentication, and most queries in the [docs](https://documenter.getpostman.com/view/10077490/T17NZjAq?version=latest), 
+require an authenticated user. Sessions handles all auth requests so there is no need to attach tokens to headers.
 
 # Project Documentation
 
@@ -262,7 +265,7 @@ mutation RaiseTicket($request: String!) {
 
 # Running Jest Test
 
-Test Suite was made with jest, executes tests on both the services and the gql queries that
+Test Suite was made with jest, executes tests on both the services, and the gql queries that
 encapsulates services
 
 - in ormconfig.json, edit url (new parser url) to change database local, an online db has
