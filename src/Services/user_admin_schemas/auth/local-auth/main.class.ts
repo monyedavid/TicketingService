@@ -72,15 +72,16 @@ export default class LocalAuth extends Base {
 
     const _role = await Role.repo().findOne({ role_id: args.role });
 
-    // const user = await User.repo().save({ ...args, role: _role });
     const user = await User.ci({ ...args, role: _role });
 
-    if (process.env.NODE_ENV !== "test") {
-      await sendEmail(
-        args.email,
-        await createConfirmEmailLink(this.url, user.id, redis)
-      );
-    }
+    /*
+         if (process.env.NODE_ENV !== "test") {
+          await sendEmail(
+            args.email,
+            await createConfirmEmailLink(this.url, user.id, redis)
+          );
+        }
+      */
 
     return { ok: true, message: null, status: 200, error: null };
   }

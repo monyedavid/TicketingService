@@ -261,3 +261,11 @@ mutation RaiseTicket($request: String!) {
 ```
 
 # Running Jest Test
+
+Test Suite was made with jest, executes tests on both the services and the gql queries that
+encapsulates services
+
+- in ormconfig.json, edit url (new parser url) to change database local, an online db has
+already been set for testing `mongodb://netbot:1234567890a@ds012889.mlab.com:12889/jt-db`
+
+-   run `npm run test` to run all test
