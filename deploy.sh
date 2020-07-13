@@ -1,6 +1,6 @@
 #! /bin/bash
-yarn build
-docker build -t lilmakijr/fliqpay .
+npm run build:server
+docker build -t lilmakijr/fliqpay:latest .
 git add .
 git commit -m "container"
 heroku container:push web
