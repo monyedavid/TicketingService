@@ -41,3 +41,7 @@ export const c2_LastName = faker.name.lastName(2);
 export const c2_Email = faker.internet.email(c2_FirstName, c2_LastName);
 export const c2_Password = faker.internet.password(13);
 export const c2_role = 2;
+
+// GQL QUERIES
+
+const regMutation = ``;

@@ -114,6 +114,7 @@
         "gen-schema-types": "ts-node --files src/GraphQL/Scripts/createTypes.ts"
     },
     "jest": {
+        "globalSetup": "./src/Test/utils/callSetUp.js",
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },

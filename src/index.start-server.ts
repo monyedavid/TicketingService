@@ -73,7 +73,7 @@ export const startServer = async () => {
    */
   const conn: Connection =
     process.env.NODE_ENV == "test"
-      ? await Conn.createTypeOrmTestConnection()
+      ? await Conn.createTestConn()
       : await Conn.createTypeOrmConnection();
 
   // console.log(conn, "<- conn");
@@ -141,7 +141,7 @@ export const startServer = async () => {
       credentials: true,
       origin: /.*/,
     },
-    port,
+    port: process.env.NODE_ENV == "test" ? 0 : port,
     playground: "/playground",
   });
 
