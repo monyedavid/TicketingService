@@ -18,7 +18,11 @@ export default class Conn {
      */
     const options = await getConnectionOptions(process.env.NODE_ENV as string);
 
-    return createConnection({ ...options, name: "default" });
+    return createConnection({
+      ...options,
+      name: "default",
+      useUnifiedTopology: true,
+    } as MongoConnectionOptions);
   }
 
   static manager(): MongoEntityManager {
@@ -35,7 +39,6 @@ export default class Conn {
      */
     const test = await getConnectionOptions("test");
 
-    // tslint:disable-next-line:no-object-literal-type-assertion
     return createConnection({
       ...test,
       name: "default",

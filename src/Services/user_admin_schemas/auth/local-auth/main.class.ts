@@ -17,8 +17,8 @@ import Base from "../../shared/base";
 import { Request } from "express-serve-static-core";
 import { User } from "../../../../Database/entities/User";
 import { Role } from "../../../../Database/entities/Role";
-import { sendEmail } from "../../../../Utils/Mail/sendEmail";
-import { createConfirmEmailLink } from "../../../../Utils/Mail/createConfirmEmailLink";
+// import { sendEmail } from "../../../../Utils/Mail/sendEmail";
+// import { createConfirmEmailLink } from "../../../../Utils/Mail/createConfirmEmailLink";
 import { genToken } from "../../../../Utils/token";
 
 const errorResponse = {

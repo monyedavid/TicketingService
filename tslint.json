@@ -31,7 +31,8 @@
     "only-arrow-functions": false,
     "no-namespace": false,
     "prefer-conditional-expression": false,
-    "no-unused-expression": false
+    "no-unused-expression": false,
+    "no-object-literal-type-assertion": false
   },
   "rulesDirectory": []
 }
