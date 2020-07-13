@@ -15,6 +15,6 @@ WORKDIR .
 
 ENV NODE_ENV production
 
-EXPOSE 4000
+EXPOSE 5500
 
 CMD ["node", "build/index.js"]

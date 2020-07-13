@@ -260,4 +260,4 @@ mutation RaiseTicket($request: String!) {
 
 ```
 
-# Running Test
+# Running Jest Test
