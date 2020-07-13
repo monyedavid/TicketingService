@@ -21,7 +21,7 @@ import { confirmEmail } from "./Api/Controllers/confirmEmail";
 // import { oAuthMiddleware } from "./Services/_user-and-administrative-schema/auth/o-auth/middleware";
 
 import V1_ApiRoutes from "./Api/Contracts/v1/ApiRoutes";
-import GraphQLogger from "./Utils/log/request-logger";
+// import GraphQLogger from "./Utils/log/request-logger";
 import {
   redisessionprefix,
   serverName,
@@ -29,13 +29,13 @@ import {
   inProd,
 } from "./Utils/constants";
 
-import Static_ApiRoutes from "./Api/Contracts/static";
+// import Static_ApiRoutes from "./Api/Contracts/static";
 import Conn from "./Services/connections";
 
 const RedisStore = connectRedis(session);
 const sessionSecret = process.env.SESSION_SECRET as string;
 const v1 = new V1_ApiRoutes();
-const static_routes = new Static_ApiRoutes();
+// const static_routes = new Static_ApiRoutes();
 
 // const apiLimiter = RateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes

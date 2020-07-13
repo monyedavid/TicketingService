@@ -1,7 +1,7 @@
 {
-    "name": "@rd/ts-typeorm-tempplate",
+    "name": "@fliqpay/test",
     "version": "0.0.1",
-    "description": "Node-Ts server Template",
+    "description": "....",
     "tags": [
         "orm",
         "typescript",
@@ -108,13 +108,12 @@
     "scripts": {
         "start": "NODE_ENV=production server_location=testing node build/index.js",
         "start:dev": "NODE_ENV=dev server_location=testing nodemon --exec ts-node --files src/index.ts",
-        "test": "NODE_ENV=test jest --watch --detectOpenHandles --no-cache",
+        "test": "NODE_ENV=test jest --watch",
         "build:server": "rimraf ./build && tsc && copyfiles -u 1 src/**/*.graphql build",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "gen-schema-types": "ts-node --files src/GraphQL/Scripts/createTypes.ts"
     },
     "jest": {
-        "globalSetup": "./src/Test/utils/callSetUp.js",
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },
