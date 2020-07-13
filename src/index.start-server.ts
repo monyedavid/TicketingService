@@ -71,7 +71,10 @@ export const startServer = async () => {
   /**
    * @desc  CREATE TYPE-ORM CONNECTION BASED ON PROCESS.ENV{SETUP TEST DEV DB}
    */
-  const conn: Connection = await Conn.createTypeOrmConnection();
+  const conn: Connection =
+    process.env.NODE_ENV == "test"
+      ? await Conn.createTypeOrmTestConnection()
+      : await Conn.createTypeOrmConnection();
 
   // console.log(conn, "<- conn");
 

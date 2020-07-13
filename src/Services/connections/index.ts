@@ -12,15 +12,28 @@ export default class Conn {
    */
   public static async createTypeOrmConnection() {
     /**
-     * getConnectionOptions  > Default
+     * getConnectionOptions  returns connection options specified in ormconfig.json
      */
-    const default_ = await getConnectionOptions("default");
+    const options = await getConnectionOptions(process.env.NODE_ENV as string);
 
-    return createConnection({ ...default_ });
+    return createConnection({ ...options, name: "default" });
   }
 
   static manager(): MongoEntityManager {
     return getMongoManager();
+  }
+
+  /**
+   * @method            createTypeOrmTestConnection
+   * @description       instantiate a new typeOrm connection
+   */
+  public static async createTypeOrmTestConnection() {
+    /**
+     * getConnectionOptions  > Test
+     */
+    const test = await getConnectionOptions("test");
+
+    return createConnection({ ...test, name: "default" });
   }
 }
 
