@@ -3,6 +3,7 @@ FROM node
 WORKDIR /fliq-pay
 
 COPY ./package.json .
+COPY ./ormconfig.json .
 
 RUN npm i -g reflect-metadata
 RUN npm install
