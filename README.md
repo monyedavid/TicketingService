@@ -272,3 +272,10 @@ encapsulates services
 already been set for testing `mongodb://netbot:1234567890a@ds012889.mlab.com:12889/jt-db`
 
 -   run `npm run test` to run all test
+
+
+# Incomplete
+
+- Test suite for GQL server
+
+- File report downloads
