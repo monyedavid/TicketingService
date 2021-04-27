@@ -14,7 +14,7 @@ GQ postman docs can be found [here](https://documenter.getpostman.com/view/10077
 
 # Deployed instance 
 
-This repository has been deployed with docker container on heroku [playground](https://fliqpay.herokuapp.com/playground) 
+This repository has been deployed with docker container on heroku [playground]() 
 
 # Project Structure
 
@@ -62,7 +62,7 @@ This repository has been deployed with docker container on heroku [playground](h
 
 # Using Project
 
-In [playground](https://fliqpay.herokuapp.com/playground) copy and paste queries from [Postman Docs](https://documenter.getpostman.com/view/10077490/T17NZjAq?version=latest) with 
+In [playground]() copy and paste queries from [Postman Docs](https://documenter.getpostman.com/view/10077490/T17NZjAq?version=latest) with 
 variables to run operation, examples are defined below
 for easy use. Users in example exist in the database.
 
